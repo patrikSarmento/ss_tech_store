@@ -6,7 +6,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-qjdvcatotx0_@svq74n%+0%c@*j2fmg!e5(59dq+@ff1#==e+z'
 DEBUG = False  # Mude para False para produção
 
-ALLOWED_HOSTS = ['seu-app.onrender.com']  # Troque pelo seu domínio Render
+ALLOWED_HOSTS = ['ss-tech-store.onrender.com']
+
 
 INSTALLED_APPS = [
     'django.contrib.sessions',
