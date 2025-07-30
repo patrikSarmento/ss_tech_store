@@ -3,11 +3,11 @@ from .dados_usuarios import usuarios  # dicionário fixo de usuários
 
 # Produtos fixos simulados
 produtos = [
-    {"nome": "Monitor", "categoria": "monitores", "preco": 900, "imagem": "Monitor.jpeg"},
-    {"nome": "Teclado Mecânico RGB", "categoria": "teclados", "preco": 200, "imagem": "Teclado Mecânico RGB.jpeg"},
-    {"nome": "Mouse Gamer", "categoria": "mouses", "preco": 150, "imagem": "Mouse Gamer.jpeg"},
-    {"nome": "Fone Headset USB", "categoria": "fones", "preco": 250, "imagem": "Fone Headset USB.jpeg"},
-    {"nome": "Placa de Vídeo GTX 1660", "categoria": "pecas", "preco": 1700, "imagem": "Placa de Vídeo GTX 1660.jpeg"},
+    {"nome": "Monitor", "categoria": "monitores", "preco": 900, "imagem": "monitor.jpeg"},
+    {"nome": "Teclado Mecânico RGB", "categoria": "teclados", "preco": 200, "imagem": "teclado-mecanico-rgb.jpeg"},
+    {"nome": "Mouse Gamer", "categoria": "mouses", "preco": 150, "imagem": "mouse-gamer.jpeg"},
+    {"nome": "Fone Headset USB", "categoria": "fones", "preco": 250, "imagem": "fone-headset-usb.jpeg"},
+    {"nome": "Placa de Vídeo GTX 1660", "categoria": "pecas", "preco": 1700, "imagem": "placa-video-gtx1660.jpeg"},
 ]
 
 def index(request):
