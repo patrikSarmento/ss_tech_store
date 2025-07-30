@@ -1,0 +1,282 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>SS Tech Store - Produtos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f1f4f8;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+    }
+
+    /* Navbar com roxo escuro */
+    .navbar {
+      background-color: #3f0071; /* roxo escuro */
+    }
+
+    /* Links da navbar em amarelo */
+    .navbar-brand, .nav-link {
+      color: #c6a500 !important; /* amarelo escuro */
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    /* Hover amarelo claro */
+    .navbar-brand:hover, .nav-link:hover {
+      color: #e3d849 !important;
+      text-shadow: 0 0 5px #e3d849;
+    }
+
+    h1 {
+      margin-top: 2rem;
+      font-weight: 700;
+      color: #1f2a40;
+    }
+
+    .card {
+      border: none;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s;
+      background-color: white;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card-img-top {
+      border-top-left-radius: 0.75rem;
+      border-top-right-radius: 0.75rem;
+      height: 200px;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1f2a40;
+    }
+
+    .card-text {
+      color: #444;
+    }
+
+    /* Botões com cores amarelo e roxo */
+    .btn-outline-primary {
+      border-radius: 0.5rem;
+      font-weight: 600;
+      border-color: #3f0071;
+      color: #3f0071;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+      background-color: #c6a500;
+      border-color: #c6a500;
+      color: #3f0071;
+    }
+
+    .btn-danger {
+      background-color: #3f0071;
+      border: none;
+      color: #c6a500;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-danger:hover {
+      background-color: #c6a500;
+      color: #3f0071;
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding: 1rem 0;
+      text-align: center;
+      background-color: #3f0071; /* roxo escuro */
+      color: #c6a500; /* amarelo */
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    #abrir-carrinho {
+      position: fixed;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      background-color: #3f0071; /* roxo escuro */
+      color: #c6a500; /* amarelo */
+      padding: 10px 15px;
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+      cursor: pointer;
+      z-index: 999;
+      font-weight: bold;
+      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    #abrir-carrinho:hover {
+      background-color: #c6a500;
+      color: #3f0071;
+    }
+
+    #sidebar-carrinho {
+      position: fixed;
+      top: 0;
+      right: -320px;
+      width: 300px;
+      height: 100%;
+      background-color: #fff;
+      border-left: 1px solid #ccc;
+      padding: 20px;
+      overflow-y: auto;
+      z-index: 1000;
+      transition: right 0.3s ease;
+    }
+
+    #sidebar-carrinho.ativo {
+      right: 0;
+    }
+
+    #sidebar-carrinho h4 {
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    #itens-carrinho {
+      font-size: 14px;
+    }
+
+    #total {
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="#">SS Tech Store</a>
+      <div class="ms-auto">
+        <a href="{% url 'login' %}" class="nav-link d-inline">Login</a>
+        <a href="{% url 'cadastro' %}" class="nav-link d-inline">Cadastro</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PRODUTOS -->
+  <div class="container">
+    <h1 class="text-center mb-5">Nossos Produtos</h1>
+    <div class="row g-4">
+      {% for produto in produtos %}
+      <div class="col-md-4">
+        <div class="card">
+          <img src="{% static 'img/'|add:produto.imagem %}" class="card-img-top" alt="{{ produto.nome }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ produto.nome }}</h5>
+            <p class="card-text">R$ {{ produto.preco }}</p>
+            <button
+              class="btn btn-sm btn-outline-primary mt-2 w-100"
+              onclick="adicionarAoCarrinho('{{ produto.nome|escapejs }}', '{{ produto.preco|floatformat:'2' }}')"
+              type="button"
+            >
+              Adicionar ao Carrinho
+            </button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Barra lateral -->
+  <div id="abrir-carrinho" onclick="abrirCarrinho()">🛒 Ver Carrinho</div>
+
+  <div id="sidebar-carrinho">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="mb-0">Seu Carrinho</h4>
+      <button onclick="fecharCarrinho()" class="btn btn-sm btn-outline-secondary" type="button">❌</button>
+    </div>
+    <div id="itens-carrinho">
+      <p>Nenhum item adicionado.</p>
+    </div>
+    <div id="total">Total: R$ 0</div>
+    <button class="btn btn-sm btn-danger w-100 mt-3" onclick="limparCarrinho()" type="button">Limpar Carrinho</button>
+  </div>
+
+  <!-- RODAPÉ -->
+  <footer>
+    &copy; {% now "Y" %} SS Tech Store. Todos os direitos reservados.
+  </footer>
+
+  <!-- JS -->
+  <script>
+    let carrinho = [];
+    let total = 0;
+
+    function abrirCarrinho() {
+      document.getElementById('sidebar-carrinho').classList.add('ativo');
+    }
+
+    function fecharCarrinho() {
+      document.getElementById('sidebar-carrinho').classList.remove('ativo');
+    }
+
+    function adicionarAoCarrinho(nome, preco) {
+      // Converte string para número, tratando vírgula como ponto
+      preco = parseFloat(preco.replace(',', '.'));
+
+      const existente = carrinho.find(item => item.nome === nome);
+      if (existente) {
+        existente.qtd += 1;
+      } else {
+        carrinho.push({ nome: nome, preco: preco, qtd: 1 });
+      }
+      atualizarCarrinho();
+      abrirCarrinho();
+    }
+
+    function atualizarCarrinho() {
+      const divItens = document.getElementById('itens-carrinho');
+      divItens.innerHTML = '';
+      total = 0;
+
+      carrinho.forEach(function(item) {
+        const subtotal = item.preco * item.qtd;
+        total += subtotal;
+
+        let html = '<div class="mb-2">';
+        html += '<strong>' + item.nome + '</strong><br>';
+        html += 'Quantidade: ' + item.qtd + '<br>';
+        html += 'Subtotal: R$ ' + subtotal.toFixed(2);
+        html += '</div><hr>';
+
+        divItens.innerHTML += html;
+      });
+
+      if (carrinho.length === 0) {
+        divItens.innerHTML = '<p>Nenhum item adicionado.</p>';
+      }
+
+      document.getElementById('total').innerText = 'Total: R$ ' + total.toFixed(2);
+    }
+
+    function limparCarrinho() {
+      carrinho = [];
+      total = 0;
+      atualizarCarrinho();
+    }
+  </script>
+
+</body>
+</html>

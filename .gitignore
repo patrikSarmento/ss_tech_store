@@ -1,0 +1,29 @@
+# Banco de dados SQLite
+db.sqlite3
+
+# Bytecode compilado do Python
+__pycache__/
+*.py[cod]
+
+# Ambiente virtual (caso esteja na mesma pasta)
+env/
+venv/
+
+# Arquivos de configuração de IDEs
+.vscode/
+.idea/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de log
+*.log
+
+# Mídia e arquivos estáticos gerados (caso aplicável)
+media/
+staticfiles/
+
+# Variáveis de ambiente
+.env
+db.sqlite3

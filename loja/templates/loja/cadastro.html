@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cadastro - SS Tech Store</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      background: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .split {
+      position: fixed;
+      top: 0;
+      height: 100vh;
+      width: 50vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      padding: 2rem;
+    }
+
+    .left {
+      left: 0;
+      background: #6610f2;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem;
+      overflow: hidden;
+      z-index: 1;
+      border-radius: 40px;
+    }
+
+    .right {
+      right: 0;
+      background-color: #f9d71c;
+      color: #6610f2;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      padding: 2rem;
+      border-radius: 40px;
+    }
+
+    .content-box {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 0 20px rgba(101, 32, 255, 0.1);
+      width: 420px;
+      min-height: 480px;
+      padding: 2rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 2;
+      color: #333;
+      border: none;
+    }
+
+    h2 {
+      color: #6610f2;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    label {
+      font-weight: 600;
+      color: #444;
+    }
+
+    form {
+      width: 100%;
+    }
+
+    input.form-control {
+      background: #fff;
+      color: #333;
+      border-radius: 0.5rem;
+      border: 1.5px solid #ccc;
+      transition: border-color 0.3s ease;
+    }
+
+    input.form-control:focus {
+      border-color: #f9d71c;
+      box-shadow: 0 0 8px #f9d71c;
+      outline: none;
+    }
+
+    /* Container dos botões lado a lado */
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+
+    /* Botão cadastrar */
+    .btn-primary {
+      background-color: #f9d71c;
+      border: none;
+      color: #6610f2;
+      font-weight: 600;
+      padding: 0.6rem 1.5rem;
+      border-radius: 0.5rem;
+      width: 48%;
+      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #e0c416;
+    }
+
+    /* Botão login estilizado: fundo roxo, texto amarelo */
+    .btn-login-link {
+      display: inline-block;
+      width: 48%;
+      padding: 0.6rem 1.5rem;
+      text-align: center;
+      background-color: #6610f2; /* roxo */
+      border: none;
+      color: #f9d71c; /* amarelo */
+      font-weight: 600;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      line-height: 1.5;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-login-link:hover {
+      background-color: #4b0db5;
+      color: #fff200;
+      text-decoration: none;
+    }
+
+    .icon-box {
+      background-color: #f9d71c;
+      border: 3px solid #6610f2;
+      border-radius: 1.5rem;
+      width: 280px;
+      height: 280px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      z-index: 2;
+    }
+
+    .icon-box svg {
+      width: 180px;
+      height: 180px;
+    }
+
+    @media (max-width: 991px) {
+      .split {
+        position: relative;
+        width: 100vw;
+        height: auto;
+        padding: 1rem 2rem;
+      }
+
+      .left, .right {
+        width: 100%;
+        height: auto;
+        box-shadow: none;
+        padding: 1.5rem 0;
+        border-radius: 0;
+      }
+
+      .left {
+        order: 1;
+      }
+
+      .right {
+        order: 2;
+      }
+
+      .content-box {
+        width: 100%;
+        min-height: auto;
+        padding: 1.5rem 1.8rem;
+        border: none;
+        box-shadow: none;
+      }
+
+      .icon-box {
+        width: 100%;
+        height: auto;
+        border: none;
+        background: transparent;
+        padding: 0;
+      }
+
+      .icon-box svg {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="split left">
+    <div class="content-box">
+      <h2>Criar Conta</h2>
+
+      {% if erro %}
+      <div class="alert alert-danger w-100">{{ erro }}</div>
+      {% endif %}
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome</label>
+          <input type="text" id="nome" name="nome" class="form-control" required placeholder="Seu nome completo" />
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" name="email" class="form-control" required placeholder="seu@email.com" />
+        </div>
+        <div class="mb-3">
+          <label for="senha" class="form-label">Senha</label>
+          <input type="password" id="senha" name="senha" class="form-control" required placeholder="Senha segura" />
+        </div>
+
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary fw-semibold">Cadastrar</button>
+          <a href="{% url 'login' %}" class="btn-login-link">Login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="split right">
+    <div class="icon-box" role="img" aria-label="Ícone de pessoa para cadastro">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 64 64"
+        fill="none"
+        stroke="#6610f2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="3"
+      >
+        <circle cx="32" cy="20" r="12" fill="#C6B8F6" stroke="#6610f2" />
+        <path d="M16 52c0-8 32-8 32 0v8H16v-8z" fill="#A289F8" stroke="#6610f2" />
+        <rect x="26" y="32" width="12" height="8" rx="3" ry="3" fill="#8B75E6" stroke="#6610f2" />
+      </svg>
+    </div>
+  </div>
+</body>
+</html>
